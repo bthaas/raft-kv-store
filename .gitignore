@@ -1,0 +1,9 @@
+# Binaries
+server
+
+# Logs
+*.log
+wal-*.log
+
+# OS
+.DS_Store
