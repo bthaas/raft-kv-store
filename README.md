@@ -2,8 +2,6 @@
 
 A fault-tolerant, horizontally scalable Key-Value Store built in Go using the Raft consensus algorithm.
 
-**Author**: Brett Haas (Collaborated with Google Deepmind AI)
-
 ## Features
 -   **Strong Consistency**: Uses Raft (Leader Election, Log Replication) to ensure data is safe.
 -   **Fault Tolerance**: Survives node failures in a 3-node cluster.
