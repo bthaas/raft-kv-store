@@ -463,7 +463,18 @@ func (rn *RaftNode) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) 
 		return nil
 	}
 
-	if rn.VotedFor == "" || rn.VotedFor == args.CandidateId {
+	// Check if candidate's log is at least as up-to-date as follower's log
+	lastLogIndex := len(rn.Log) - 1
+	lastLogTerm := rn.Log[lastLogIndex].Term
+	
+	logUpToDate := false
+	if args.LastLogTerm > lastLogTerm {
+		logUpToDate = true
+	} else if args.LastLogTerm == lastLogTerm && args.LastLogIndex >= lastLogIndex {
+		logUpToDate = true
+	}
+
+	if (rn.VotedFor == "" || rn.VotedFor == args.CandidateId) && logUpToDate {
 		rn.VotedFor = args.CandidateId
 		reply.VoteGranted = true
 		rn.resetElectionTimerLocked()

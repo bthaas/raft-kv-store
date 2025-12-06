@@ -2,6 +2,7 @@ package wal
 
 import (
 	"encoding/gob"
+	"io"
 	"os"
 	"sync"
 )
@@ -58,7 +59,7 @@ func Recover(path string) ([]LogEntry, error) {
 	for {
 		var entry LogEntry
 		if err := dec.Decode(&entry); err != nil {
-			if err.Error() == "EOF" {
+			if err == io.EOF {
 				break
 			}
 			return nil, err
